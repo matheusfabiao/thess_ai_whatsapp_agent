@@ -1,0 +1,58 @@
+services:
+  evolution-api:
+    container_name: evolution_api
+    image: atendai/evolution-api:v2.1.1
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - secrets/.env
+    volumes:
+      - evolution_instances:/evolution/
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    command: ["postgres", "-c", "max_connections=1000"]
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: >
+      redis-server --port 6379 --appendonly yes
+    volumes:
+      - redis:/data
+    ports:
+      - 6379:6379
+
+  thess:
+    build: .
+    container_name: thess
+    ports:
+      - "8000:8000"
+    env_file:
+      - secrets/.env
+    depends_on:
+      - evolution-api
+      - redis
+    restart: always
+    volumes:
+      - .:/app        # <- mapeia seu código local para dentro do container
+      - /app/.venv    # <- impede que o .venv local sobrescreva o do container
+
+volumes:
+  evolution_instances:
+  postgres_data:
+  redis:
