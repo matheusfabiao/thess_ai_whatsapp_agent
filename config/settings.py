@@ -35,3 +35,6 @@ class Settings(BaseSettings):
 
     # Google
     GOOGLE_API_KEY: str
+
+    # Open Weather
+    OPENWEATHER_API_KEY: str
