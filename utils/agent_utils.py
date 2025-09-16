@@ -5,6 +5,7 @@ from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.openweather import OpenWeatherTools
 
 from config import settings
+from tools.datetime_tools import DateTimeTools
 
 
 def decode_base64_to_bytes(audio_base64: str) -> bytes:
@@ -34,6 +35,7 @@ def get_tools() -> list:
             units='metric',
             api_key=settings.OPENWEATHER_API_KEY,
         ),
+        DateTimeTools(),
     ]
 
 
