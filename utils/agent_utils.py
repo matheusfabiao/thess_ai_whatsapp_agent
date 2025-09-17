@@ -2,9 +2,12 @@ import base64
 from pathlib import Path
 
 from agno.tools.duckduckgo import DuckDuckGoTools
+from agno.tools.memory import MemoryTools
 from agno.tools.openweather import OpenWeatherTools
+from agno.tools.reasoning import ReasoningTools
 
 from config import settings
+from services.memory_service import MemoryService
 from tools.datetime_tools import DateTimeTools
 
 
@@ -36,6 +39,12 @@ def get_tools() -> list:
             api_key=settings.OPENWEATHER_API_KEY,
         ),
         DateTimeTools(),
+        ReasoningTools(
+            add_instructions=True,
+        ),
+        MemoryTools(
+            db=MemoryService().get_test_memory_db(),
+        ),
     ]
 
 
