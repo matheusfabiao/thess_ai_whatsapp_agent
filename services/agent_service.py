@@ -31,7 +31,7 @@ class AgentService:
             session_id='whatsapp_' + chat_id,
             enable_user_memories=True,
             add_history_to_context=True,
-            num_history_runs=5,
+            num_history_runs=3,
             enable_session_summaries=True,
             add_name_to_context=True,
             markdown=True,

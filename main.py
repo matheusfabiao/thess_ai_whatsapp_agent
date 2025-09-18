@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 
 from config import logger
 from services.agent_service import AgentService
-from services.whatsapp_service import WhatsappService
+from services.buffer_service import BufferService
 
 app = FastAPI()
 
@@ -41,16 +41,6 @@ async def webhook(request: Request) -> dict:
             """
         )
 
-        response = AgentService().get_agent_response(
-            message=message,
-            sender_name=sender_name,
-            chat_id=chat_id,
-        )
-        WhatsappService().send_whatsapp_message(
-            number=chat_id,
-            response=response,
-        )
-
-        logger.info('Mensagem enviada com sucesso!')
+        await BufferService().buffer_message(chat_id, sender_name, message)
 
     return {'status': 'ok'}

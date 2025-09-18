@@ -1,3 +1,5 @@
+from typing import Union
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -38,3 +40,8 @@ class Settings(BaseSettings):
 
     # Open Weather
     OPENWEATHER_API_KEY: str
+
+    # Message Buffer
+    BUFFER_SUFIX_KEY: str
+    DEBOUNCE_TIME: Union[int, float]
+    BUFFER_TTL: int
